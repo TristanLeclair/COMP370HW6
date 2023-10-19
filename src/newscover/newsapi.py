@@ -19,11 +19,15 @@ def fetch_latest_news(api_key: str, news_keywords: List[str], lookback_days=10):
 
     # query newsapi.org
     url = "https://newsapi.org/v2/everything"
+    date = (datetime.datetime.now() - datetime.timedelta(days=lookback_days)).strftime(
+        "%Y-%m-%d"
+    )
     params = {
         "q": news_keywords,
-        "from": (datetime.datetime.now() - datetime.timedelta(days=lookback_days)).strftime("%Y-%m-%d"),
+        "from": date,
         "sortBy": "publishedAt",
         "apiKey": api_key,
+        "language": "en",
     }
     response = requests.get(url, params=params)
 
@@ -35,9 +39,4 @@ def fetch_latest_news(api_key: str, news_keywords: List[str], lookback_days=10):
             raise Exception("API rate limit exceeded!")
         raise Exception("Error fetching news!")
 
-    # return only english articles
-    return [
-        article
-        for article in response.json()["articles"]
-        if article["language"] == "en"
-    ]
+    return response.json()["articles"]
