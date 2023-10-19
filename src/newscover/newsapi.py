@@ -1,5 +1,4 @@
 import datetime
-from datetime import timedelta
 from typing import List
 import requests
 
@@ -22,9 +21,7 @@ def fetch_latest_news(api_key: str, news_keywords: List[str], lookback_days=10):
     url = "https://newsapi.org/v2/everything"
     params = {
         "q": news_keywords,
-        # this line is incorrect
         "from": (datetime.datetime.now() - datetime.timedelta(days=lookback_days)).strftime("%Y-%m-%d"),
-        # "from": (datetime.now() - timedelta(days=lookback_days)).strftime("%Y-%m-%d"),
         "sortBy": "publishedAt",
         "apiKey": api_key,
     }
