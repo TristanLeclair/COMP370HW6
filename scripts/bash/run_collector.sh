@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APIKEY="e7e91eca2b244fc88a0b71323eea37d0"
+APIKEY="insert_your_api_key_here"
 DEFAULT_LOOKBACK=10
 DEFAULT_INPUT="data/test/keywords.json"
 DEFAULT_OUTPUT="output/"

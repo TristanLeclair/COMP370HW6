@@ -1,6 +1,7 @@
 # COMP370 Homework 6 - Data Collection
 
 Python project to query newsapi.org API
+You need an api key to run this project. You can get one [here](https://newsapi.org/)
 
 This repo contains
 
@@ -12,6 +13,8 @@ This repo contains
 - Containerize
 
 ## Pitfalls
+
+- Don't forget to [generate your own api_key](https://newsapi.org/)
 
 # Setup/Installation
 
@@ -42,6 +45,8 @@ All of these tools have a usage message
 ### `run_collector.sh`
 
 Is a useful tool run automatically run the CLI with default values, faster to use than the CLI if running multiple times with different values
+
+Don't forget to add your api_key to the script
 
 ### `get_individual_dates.sh`
 
