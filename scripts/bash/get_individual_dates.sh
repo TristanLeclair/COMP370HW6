@@ -13,4 +13,8 @@ if [ $# -ne 1 ]; then
   usage
 fi
 
+if [ ! -f "$1" ]; then
+  usage
+fi
+
 grep 'publishedAt' $1 | grep -o -P "\d{4}-\d{2}-\d{2}" | sort | uniq
