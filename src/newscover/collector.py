@@ -6,14 +6,16 @@ from src.newscover.newsapi import fetch_latest_news
 
 
 def main():
-    (api_key, lookback_days, input_file, output_dir) = parse_args()
+    (api_key, lookback_days, input_file, output_dir, quiet) = parse_args()
 
     # read input file
     keywords_dict = json.load(input_file)
 
     # for each keyword list, query newsapi.org and write the results to a json file
     for key, value in keywords_dict.items():
-        news = fetch_latest_news(api_key, value, lookback_days)
+        if not quiet:
+            print(f"Fetching news for {key}... with dates {lookback_days} days back")
+        news = fetch_latest_news(api_key, value, lookback_days, quiet)
         with open(f"{output_dir}/{key}.json", "w") as f:
             json.dump(news, f, indent=4, sort_keys=True)
 
@@ -46,6 +48,13 @@ def parse_args():
         type=dir_path,
         required=True,
     )
+    parser.add_argument(
+        "-q",
+        metavar="<quiet>",
+        help="quiet mode, default True",
+        default=True,
+        required=False,
+    )
 
     args = parser.parse_args()
 
@@ -53,8 +62,9 @@ def parse_args():
     lookback_days = args.b
     file = args.i
     output_dir = args.o
+    quiet = args.q
 
-    return (api_key, lookback_days, file, output_dir)
+    return (api_key, lookback_days, file, output_dir, quiet)
 
 
 if __name__ == "__main__":

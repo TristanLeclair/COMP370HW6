@@ -41,28 +41,34 @@ class TestNewsApiMocked(unittest.TestCase):
         keywords = ["keyword"]
         apiKey = "apiKey"
         lookback_days = 10
+        max_date = (
+            datetime.datetime.now() - datetime.timedelta(days=lookback_days)
+        ).strftime("%Y-%m-%d")
+
+        more_than_max_date = (
+            datetime.datetime.now() - datetime.timedelta(days=lookback_days + 1)
+        ).strftime("%Y-%m-%d")
 
         self.mock_get.return_value.status_code = 200
         self.mock_get.return_value.json.return_value = {
+            "status": "ok",
             "articles": [
                 {
                     "title": "title1",
                     "description": "description1",
                     "url": "url1",
-                    "language": "en",
-                    "date": "2020-01-01",
+                    "publishedAt": max_date,
                 },
                 {
                     "title": "title2",
                     "description": "description2",
                     "url": "url2",
-                    "language": "en",
-                    "date": "2020-01-02",
+                    "publishedAt": more_than_max_date,
                 },
-            ]
+            ],
         }
-        result = fetch_latest_news(apiKey, keywords, lookback_days)
-        self.assertEqual(len(result), 2)
+        result = fetch_latest_news(apiKey, keywords, lookback_days, quiet=True)
+        self.assertEqual(len(result), 1)
         self.mock_get.assert_called_once_with(
             "https://newsapi.org/v2/everything",
             params={
@@ -72,6 +78,7 @@ class TestNewsApiMocked(unittest.TestCase):
                 ).strftime("%Y-%m-%d"),
                 "sortBy": "publishedAt",
                 "apiKey": apiKey,
+                "language": "en",
             },
         )
 
