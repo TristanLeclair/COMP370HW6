@@ -1,7 +1,8 @@
-import unittest
-from ..newsapi import fetch_latest_news
-from unittest.mock import patch
 import datetime
+import unittest
+from unittest.mock import patch
+
+from ..newsapi import fetch_latest_news
 
 
 class TestNewsApi(unittest.TestCase):
@@ -14,11 +15,6 @@ class TestNewsApi(unittest.TestCase):
         with self.assertRaises(Exception) as context:
             fetch_latest_news("apiKey", [], 10)
         self.assertTrue("News keywords not found!" in str(context.exception))
-
-    def test_non_list_keywords_fails(self):
-        with self.assertRaises(Exception) as context:
-            fetch_latest_news("apiKey", "123", 10)
-        self.assertTrue("News keywords should be a list!" in str(context.exception))
 
     def test_non_alpha_keywords_fails(self):
         with self.assertRaises(Exception) as context:

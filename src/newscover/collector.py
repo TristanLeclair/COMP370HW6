@@ -1,8 +1,8 @@
 import argparse
 import json
 
-from src.newscover.utils import dir_path
 from src.newscover.newsapi import fetch_latest_news
+from src.newscover.utils import dir_path
 
 
 def main():
